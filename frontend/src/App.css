@@ -1,0 +1,176 @@
+/* ----------- Global Styles ----------- */
+body {
+  margin: 0;
+  padding: 0;
+  background: #0d0d0d;
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+}
+
+.app-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* ----------- Search Bar ----------- */
+.search-bar-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.search-bar-container input {
+  width: 350px;
+  padding: 12px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+}
+
+.search-bar-container button {
+  margin-left: 10px;
+  padding: 12px 18px;
+  border-radius: 6px;
+  background: #e50914;
+  border: none;
+  font-size: 16px;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.search-bar-container button:hover {
+  background: #b20710;
+}
+
+/* ----------- Movie List ----------- */
+.movie-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 25px;
+  padding: 10px;
+}
+
+/* ----------- Movie Card ----------- */
+.movie-card {
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+}
+
+.m.movie-card img {
+  width: 220px;       /* increased from 180px */
+  height: 330px;      /* keep aspect ratio nice */
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+}
+
+
+.movie-card:hover {
+  transform: scale(1.05);
+}
+
+.movie-card h3 {
+  font-size: 16px;
+  margin: 10px 0 5px;
+}
+
+.movie-card p {
+  color: #bbb;
+  font-size: 14px;
+}
+
+/* ----------- Movie Detail Page ----------- */
+.movie-detail-container {
+  padding: 20px;
+}
+
+.movie-detail-container button {
+  background: #e50914;
+  border: none;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.movie-detail-container img {
+  width: 250px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.movie-detail-container h1 {
+  margin: 10px 0;
+}
+
+.movie-detail-container p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #ccc;
+}
+/* ---------- Animated Title ---------- */
+.app-title {
+  text-align: center;
+  font-size: 48px;
+  font-weight: 800;
+  color: #e50914;
+  margin-bottom: 10px;
+  animation: neon-glow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes neon-glow {
+  0% {
+    text-shadow: 0 0 5px #e50914, 0 0 10px #e50914, 0 0 20px #e50914;
+  }
+  50% {
+    text-shadow: 0 0 10px #ff4c4c, 0 0 20px #ff4c4c, 0 0 30px #ff4c4c;
+  }
+  100% {
+    text-shadow: 0 0 5px #e50914, 0 0 10px #e50914, 0 0 20px #e50914;
+  }
+}
+
+.app-subtitle {
+  text-align: center;
+  color: #bbbbbb;
+  font-size: 18px;
+  margin-bottom: 25px;
+}
+/* ---------- Movie Row ---------- */
+.movie-row {
+  margin-bottom: 40px;
+}
+
+.row-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.movie-row-container {
+  display: flex;
+  overflow-x: auto;
+  padding: 10px;
+  gap: 15px;
+  scroll-behavior: smooth;
+}
+
+.movie-row-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.movie-row-container::-webkit-scrollbar-thumb {
+  background: #e50914;
+  border-radius: 4px;
+}
+
+.movie-row-container::-webkit-scrollbar-track {
+  background: #111;
+}
