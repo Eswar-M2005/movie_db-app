@@ -5,10 +5,15 @@ require("dotenv").config();
 const movieRoutes = require("./routes/movies");
 
 const app = express();
-app.use(cors()); // <--- enables all origins
+
+app.use(cors());
 app.use(express.json());
 
-app.use("/api/movies", movieRoutes);
+const PORT = process.env.PORT || 5001;
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));
+// Mount the movie routes at the root or base path
+app.use("/", movieRoutes);
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

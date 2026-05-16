@@ -1,0 +1,29 @@
+services:
+  # Backend Web Service
+  - type: web
+    name: movie-db-backend
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    rootDir: backend
+    envVars:
+      - key: TMDB_API_KEY
+        sync: false # User must set this manually in the Render dashboard
+
+  # Frontend Static Site
+  - type: web
+    name: movie-db-frontend
+    env: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: frontend/build
+    rootDir: frontend
+    envVars:
+      - key: REACT_APP_BACKEND_URL
+        fromService:
+          type: web
+          name: movie-db-backend
+          envVarKey: RENDER_EXTERNAL_URL
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

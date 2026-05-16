@@ -9,67 +9,94 @@ const Home = () => {
   const [selected, setSelected] = useState(null);
   const [trending, setTrending] = useState([]);
   const [popular, setPopular] = useState([]);
+  
+  const [searchError, setSearchError] = useState("");
+  const [trendingError, setTrendingError] = useState("");
+  const [popularError, setPopularError] = useState("");
 
-  const API_KEY = "6211f80ed4af3034f42f29f8ddf4ab42"; // Replace with TMDB API key
+  const BASE_URL = process.env.REACT_APP_BACKEND_URL;
 
   const searchMovies = async (query) => {
-    const response = await axios.get(
-      "https://api.themoviedb.org/3/search/movie",
-      {
-        params: { api_key: API_KEY, query },
-      }
-    );
-    setMovies(response.data.results);
+    try {
+      setSearchError("");
+      const response = await axios.get(`${BASE_URL}/search/movie`, {
+        params: { query },
+      });
+      setMovies(response.data.results);
+    } catch (err) {
+      console.error("Error searching movies:", err);
+      setSearchError("Failed to search movies. Please try again later.");
+    }
   };
 
-  // Fetch trending and popular movies
   useEffect(() => {
     const fetchTrending = async () => {
-      const res = await axios.get(
-        "https://api.themoviedb.org/3/trending/movie/week",
-        { params: { api_key: API_KEY } }
-      );
-      setTrending(res.data.results);
+      try {
+        setTrendingError("");
+        const res = await axios.get(`${BASE_URL}/trending/movie/week`);
+        setTrending(res.data.results);
+      } catch (err) {
+        console.error("Error fetching trending movies:", err);
+        setTrendingError("Failed to load trending movies.");
+      }
     };
 
     const fetchPopular = async () => {
-      const res = await axios.get(
-        "https://api.themoviedb.org/3/movie/popular",
-        { params: { api_key: API_KEY } }
-      );
-      setPopular(res.data.results);
+      try {
+        setPopularError("");
+        const res = await axios.get(`${BASE_URL}/movie/popular`);
+        setPopular(res.data.results);
+      } catch (err) {
+        console.error("Error fetching popular movies:", err);
+        setPopularError("Failed to load popular movies.");
+      }
     };
 
     fetchTrending();
     fetchPopular();
-  }, []);
+  }, [BASE_URL]);
 
   return (
     <div className="app-container">
       {!selected ? (
         <>
-          {/* ---------- Animated Title ---------- */}
           <h1 className="app-title">🎬 Movie Explorer</h1>
+
           <p className="app-subtitle">
             Discover movies, explore details, and find your next favorite film.
           </p>
 
-          {/* ---------- Search Bar ---------- */}
           <SearchBar onSearch={searchMovies} />
 
-          {/* ---------- Search Results ---------- */}
+          {searchError && <div className="error-message" style={{color: 'red', textAlign: 'center', margin: '10px 0'}}>{searchError}</div>}
+
           {movies.length > 0 && (
-            <MovieList movies={movies} onSelect={setSelected} title="Search Results" />
+            <MovieList
+              movies={movies}
+              onSelect={setSelected}
+              title="Search Results"
+            />
           )}
 
-          {/* ---------- Trending Movies Row ---------- */}
-          <MovieList movies={trending} onSelect={setSelected} title="🔥 Trending This Week" />
+          {trendingError && <div className="error-message" style={{color: 'red', textAlign: 'center', margin: '10px 0'}}>{trendingError}</div>}
+          <MovieList
+            movies={trending}
+            onSelect={setSelected}
+            title="🔥 Trending This Week"
+          />
 
-          {/* ---------- Popular Movies Row ---------- */}
-          <MovieList movies={popular} onSelect={setSelected} title="⭐ Popular Movies" />
+          {popularError && <div className="error-message" style={{color: 'red', textAlign: 'center', margin: '10px 0'}}>{popularError}</div>}
+          <MovieList
+            movies={popular}
+            onSelect={setSelected}
+            title="⭐ Popular Movies"
+          />
         </>
       ) : (
-        <MovieDetail movie={selected} onClose={() => setSelected(null)} />
+        <MovieDetail
+          movie={selected}
+          onClose={() => setSelected(null)}
+        />
       )}
     </div>
   );
